@@ -34,7 +34,9 @@ class PostsScreen extends StatelessWidget {
         child: SearchBar(
           onChanged: (query) => filterItems(query),
           hintText: 'Search posts',
-          //surfaceTintColor: WidgetStateProperty.all(Colors.green),
+          leading: Icon(Icons.search),
+          padding: WidgetStatePropertyAll<EdgeInsets>(EdgeInsets.symmetric(horizontal: 16)),
+          elevation: WidgetStatePropertyAll(1),
         ),
     );
   }
