@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../providers/provider.dart';
 
 //todo: change to stateful?
+//todo save state
 class PostsScreen extends StatelessWidget {
 
   const PostsScreen({super.key});
@@ -37,6 +38,7 @@ class PostsScreen extends StatelessWidget {
           leading: Icon(Icons.search),
           padding: WidgetStatePropertyAll<EdgeInsets>(EdgeInsets.symmetric(horizontal: 16)),
           elevation: WidgetStatePropertyAll(1),
+          autoFocus: false,
         ),
     );
   }
