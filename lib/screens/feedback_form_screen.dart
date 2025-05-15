@@ -1,76 +1,101 @@
 import 'package:flutter/material.dart';
 
+//todo: fix overflow keyboard issue
+//todo: validate email and display warning
 class FeedbackForm extends StatelessWidget {
 
-  bool snackBarVisible = true;
+  String _name = "";
+  String _email = "";
+  String _message = "";
 
-  void showSnackBar() {
-    //todo
+  void showSnackBar( BuildContext context ) {
+    if(_name.isEmpty || _email.isEmpty || _message.isEmpty) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Thank you for your feedback!'),
+        duration: Duration(seconds: 3),
+      ),
+    );
   }
-  //todo: textField bg ; button size ; card size
-  //todo: fix SnackBar
+
+  bool emailIsValid() {
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if(_email.isNotEmpty && emailRegex.hasMatch(_email)) return true;
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(centerTitle: true, title: Text('Feedback Form'),),
-      body: form(),
+      resizeToAvoidBottomInset: false,
+      body: form(context),
     );
   }
 
-  Widget form() {
+  Widget form(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(40),
       child: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            formField('Name'),
-            formField('Email'),
-            formField('Message', multilined: true),
-            TextButton(
-              onPressed: showSnackBar,
-              style: ButtonStyle(
-                backgroundColor: WidgetStatePropertyAll(Colors.grey),
-              ),
-              child: Text(
-                'Send',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18
-                ),
-              ),
-            )
+            formField('Name', (value) => _name = value ),
+            formField('Email', (value) => _email = value),
+            formField('Message', (value) => _message = value, multilined: true),
+            sendButton(context)
           ],
         ),
       ),
     );
   }
 
-  Widget formField(String title, {bool multilined = false }) {
+  Widget formField(
+      String title,
+      void Function(String) onTextChanged,
+      { bool multilined = false }
+  ) {
     return Padding(
       padding: EdgeInsets.only(bottom: 24),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 0,
+        spacing: 8,
         children: [
-          Text(title),
+          Text(title, style: TextStyle(fontSize: 16),),
           TextField (
-              maxLines: multilined ? null : 1
+            onChanged: (value) => onTextChanged(value),
+            maxLines: multilined ? null : 1,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: Colors.white,
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15))
+              )),
           )
         ],
       ),
     );
   }
 
-  Widget snackBar() {
-    return Center(
-        child: SnackBar(
-            content: Center(
-              child: Text("Thank you for your feedback!"),
-            )
-        )
+  Widget sendButton(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        showSnackBar(context);
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        fixedSize: Size(200, 20),
+        elevation: 1
+      ),
+      child: Text(
+        'Send',
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18
+        ),
+      ),
     );
   }
 

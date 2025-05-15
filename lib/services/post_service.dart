@@ -6,7 +6,7 @@ import 'package:posts_app/models/post.dart';
 import '../models/post_response.dart';
 
 class PostApi {
-
+    //todo: switch to retry client?
     static const String _baseUrl = 'https://jsonplaceholder.typicode.com';
 
     static Future<PostResponse> fetchPosts() async {
