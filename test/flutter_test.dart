@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:posts_app/models/post.dart';
-import 'package:posts_app/utils.dart';
+import 'package:posts_app/utilities/filter_utils.dart';
 
 void main() {
   test('filterPosts возвращает только совпадающие заголовки', () {

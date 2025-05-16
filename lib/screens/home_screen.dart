@@ -17,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final List<Widget> _tabs = [
         PostsScreen(),
-        FeedbackForm()
+        FeedbackFormScreen()
     ];
 
   @override

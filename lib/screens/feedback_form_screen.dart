@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:posts_app/models/feedback_form_ui_state.dart';
+import 'package:provider/provider.dart';
 
-//todo: fix overflow keyboard issue
-//todo: validate email and display warning
-class FeedbackForm extends StatelessWidget {
+class FeedbackFormScreen extends StatefulWidget {
 
-  String _name = "";
-  String _email = "";
-  String _message = "";
+  const FeedbackFormScreen({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _FeedbackFormState();
+}
+
+class _FeedbackFormState extends State<FeedbackFormScreen> {
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController messageController = TextEditingController();
+
 
   void showSnackBar( BuildContext context ) {
-    if(_name.isEmpty || _email.isEmpty || _message.isEmpty) return;
-
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Thank you for your feedback!'),
@@ -19,44 +26,40 @@ class FeedbackForm extends StatelessWidget {
     );
   }
 
-  bool emailIsValid() {
-    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    if(_email.isNotEmpty && emailRegex.hasMatch(_email)) return true;
-    return false;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final state = Provider.of<FeedbackFormUiState>(context);
+
     return Scaffold(
       appBar: AppBar(centerTitle: true, title: Text('Feedback Form'),),
       resizeToAvoidBottomInset: false,
-      body: form(context),
-    );
-  }
-
-  Widget form(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.all(40),
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            formField('Name', (value) => _name = value ),
-            formField('Email', (value) => _email = value),
-            formField('Message', (value) => _message = value, multilined: true),
-            sendButton(context)
-          ],
-        ),
+      body: SingleChildScrollView(
+        child: Align(
+        alignment: Alignment.topCenter,
+        child: Card(
+            margin: EdgeInsets.all(16),
+          child: Padding(
+              padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                formField('Name', nameController),
+                emailField('Email', emailController, state),
+                formField('Message', messageController, multilined: true),
+                sendButton(context, state)
+              ],
+            )
+          ),
+        )
       ),
-    );
+    ));
   }
 
   Widget formField(
       String title,
-      void Function(String) onTextChanged,
+      TextEditingController controller,
       { bool multilined = false }
-  ) {
+      ) {
     return Padding(
       padding: EdgeInsets.only(bottom: 24),
       child: Column(
@@ -65,29 +68,65 @@ class FeedbackForm extends StatelessWidget {
         children: [
           Text(title, style: TextStyle(fontSize: 16),),
           TextField (
-            onChanged: (value) => onTextChanged(value),
+            controller: controller,
             maxLines: multilined ? null : 1,
             decoration: InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15))
-              )),
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(15))
+                )),
           )
         ],
       ),
     );
   }
 
-  Widget sendButton(BuildContext context) {
+  Widget emailField(
+      String title,
+      TextEditingController controller,
+      FeedbackFormUiState state,
+      ) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 8,
+        children: [
+          Text(title, style: TextStyle(fontSize: 16),),
+          TextField (
+            controller: controller,
+            onChanged: (_) => state.setEmailValidity(true),
+            decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(15))
+                )),
+          ),
+          state.emailValid ? SizedBox.shrink() : Text("Email is invalid", style: TextStyle(color: Colors.red))
+        ],
+      ),
+    );
+  }
+
+  Widget sendButton(
+      BuildContext context,
+      FeedbackFormUiState state,
+      ) {
     return ElevatedButton(
       onPressed: () {
-        showSnackBar(context);
+        if(state.fieldsValid(nameController.text, emailController.text, messageController.text)) {
+          nameController.clear();
+          emailController.clear();
+          messageController.clear();
+          showSnackBar(context);
+        }
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        fixedSize: Size(200, 20),
-        elevation: 1
+          backgroundColor: Colors.white,
+          fixedSize: Size(200, 20),
+          elevation: 1
       ),
       child: Text(
         'Send',

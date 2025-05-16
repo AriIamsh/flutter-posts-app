@@ -1,4 +1,4 @@
-import 'models/post.dart';
+import '../models/post.dart';
 
 List<Post> filterPosts(List<Post> all, String query) {
   if (query.isEmpty) return all;
