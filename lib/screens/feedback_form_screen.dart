@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:posts_app/models/feedback_form_ui_state.dart';
 import 'package:provider/provider.dart';
 
-//todo: fix overflow keyboard issue
 class FeedbackFormScreen extends StatefulWidget {
 
   const FeedbackFormScreen({super.key});
@@ -34,27 +33,26 @@ class _FeedbackFormState extends State<FeedbackFormScreen> {
     return Scaffold(
       appBar: AppBar(centerTitle: true, title: Text('Feedback Form'),),
       resizeToAvoidBottomInset: false,
-      body: form(context, state),
-    );
-  }
-
-  Widget form(BuildContext context, FeedbackFormUiState state) {
-
-    return Card(
-      margin: EdgeInsets.all(40),
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            formField('Name', nameController),
-            emailField('Email', emailController, state),
-            formField('Message', messageController, multilined: true),
-            sendButton(context, state)
-          ],
-        ),
+      body: SingleChildScrollView(
+        child: Align(
+        alignment: Alignment.topCenter,
+        child: Card(
+            margin: EdgeInsets.all(16),
+          child: Padding(
+              padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                formField('Name', nameController),
+                emailField('Email', emailController, state),
+                formField('Message', messageController, multilined: true),
+                sendButton(context, state)
+              ],
+            )
+          ),
+        )
       ),
-    );
+    ));
   }
 
   Widget formField(
