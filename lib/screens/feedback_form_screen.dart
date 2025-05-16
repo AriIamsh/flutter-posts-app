@@ -43,9 +43,9 @@ class _FeedbackFormState extends State<FeedbackFormScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                formField('Name', nameController),
+                formField('Name', nameController, state.nameValid, (value) => state.setNameValidity(value) ),
                 emailField('Email', emailController, state),
-                formField('Message', messageController, multilined: true),
+                formField('Message', messageController, state.messageValid, (valie) => state.setMessageValidity(value), multilined: true),
                 sendButton(context, state)
               ],
             )
@@ -58,6 +58,8 @@ class _FeedbackFormState extends State<FeedbackFormScreen> {
   Widget formField(
       String title,
       TextEditingController controller,
+      bool valueValid,
+      Function(bool) resetField,
       { bool multilined = false }
       ) {
     return Padding(
@@ -68,6 +70,7 @@ class _FeedbackFormState extends State<FeedbackFormScreen> {
         children: [
           Text(title, style: TextStyle(fontSize: 16),),
           TextField (
+            onChanged: (_) => resetField(true),
             controller: controller,
             maxLines: multilined ? null : 1,
             decoration: InputDecoration(
@@ -76,7 +79,8 @@ class _FeedbackFormState extends State<FeedbackFormScreen> {
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(15))
                 )),
-          )
+          ),
+          valueValid ? SizedBox.shrink() : Text("Field can't be empty", style: TextStyle(color: Colors.red))
         ],
       ),
     );
