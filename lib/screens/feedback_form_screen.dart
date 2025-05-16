@@ -12,9 +12,9 @@ class FeedbackFormScreen extends StatefulWidget {
 
 class _FeedbackFormState extends State<FeedbackFormScreen> {
 
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController messageController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
 
 
   void showSnackBar( BuildContext context ) {
@@ -43,9 +43,9 @@ class _FeedbackFormState extends State<FeedbackFormScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                formField('Name', nameController, state.nameValid, (value) => state.setNameValidity(value) ),
-                emailField('Email', emailController, state),
-                formField('Message', messageController, state.messageValid, (valie) => state.setMessageValidity(value), multilined: true),
+                formField('Name', _nameController, state.nameValid, (value) => state.setNameValidity(value) ),
+                emailField('Email', _emailController, state),
+                formField('Message', _messageController, state.messageValid, (value) => state.setMessageValidity(value), multilined: true),
                 sendButton(context, state)
               ],
             )
@@ -120,10 +120,10 @@ class _FeedbackFormState extends State<FeedbackFormScreen> {
       ) {
     return ElevatedButton(
       onPressed: () {
-        if(state.fieldsValid(nameController.text, emailController.text, messageController.text)) {
-          nameController.clear();
-          emailController.clear();
-          messageController.clear();
+        if(state.fieldsValid(_nameController.text, _emailController.text, _messageController.text)) {
+          _nameController.clear();
+          _emailController.clear();
+          _messageController.clear();
           showSnackBar(context);
         }
       },
@@ -140,6 +140,14 @@ class _FeedbackFormState extends State<FeedbackFormScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _messageController.dispose();
+    super.dispose();
   }
 
 }

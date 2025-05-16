@@ -11,7 +11,9 @@ class PostsScreen extends StatefulWidget {
 }
 
 class _PostsScreenState extends State<PostsScreen> {
-  
+
+  final FocusNode _focusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
 
@@ -33,15 +35,18 @@ class _PostsScreenState extends State<PostsScreen> {
   Widget searchField(PostsUiState state) {
     return Padding(
         padding: EdgeInsets.only(bottom: 20),
-        child: SearchBar(
-          onChanged: (query) => state.setFilter(query),
-          hintText: 'Search posts',
-          leading: Icon(Icons.search),
-          padding: WidgetStatePropertyAll<EdgeInsets>(EdgeInsets.symmetric(horizontal: 16)),
-          elevation: WidgetStatePropertyAll(1),
-          autoFocus: false,
+        child: FocusScope(
+          node: FocusScopeNode(),
+          child: SearchBar(
+            focusNode: _focusNode,
+            onChanged: (query) => state.setFilter(query),
+            hintText: 'Search posts',
+            leading: Icon(Icons.search),
+            padding: WidgetStatePropertyAll<EdgeInsets>(EdgeInsets.symmetric(horizontal: 16)),
+            elevation: WidgetStatePropertyAll(1),
+            autoFocus: false,
         ),
-    );
+    ));
   }
 
   Widget listOfPosts(
@@ -69,6 +74,7 @@ class _PostsScreenState extends State<PostsScreen> {
               return Card (
                 margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 child: ListTile (
+                  splashColor: Colors.transparent,
                   title: Text(post.title, style: TextStyle(fontWeight:
                   FontWeight.bold)),
                   subtitle: Text(post.body.split('\n').first),
@@ -78,5 +84,11 @@ class _PostsScreenState extends State<PostsScreen> {
             }, );
         }, ),
     );
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
   }
 }
