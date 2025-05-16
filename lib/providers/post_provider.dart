@@ -7,9 +7,9 @@ import '../models/post_response.dart';
 
 class PostApi {
     //todo: switch to retry client?
-    static const String _baseUrl = 'https://jsonplaceholder.typicode.com';
+     final String _baseUrl = 'https://jsonplaceholder.typicode.com';
 
-    static Future<PostResponse> fetchPosts() async {
+     Future<PostResponse> fetchPosts() async {
       final url = Uri.parse('$_baseUrl/posts');
 
       try {
@@ -21,20 +21,12 @@ class PostApi {
               (json) => Post.fromJson(json)
           ).toList();
 
-          print("Fetched posts length: ${posts.length}");
-          print("Fetched posts first element: ${posts.first.title}");
-
-          return PostResponse(posts: posts);
+          return PostResponse(posts: posts, error: null);
         } else {
           final message = 'Response code is ${response.statusCode}';
-
-          print(message);
-
           return PostResponse(error: message);
         }
       } catch (e) {
-        print('Exception caught: $e');
-
         return PostResponse(error: "Exception caught: $e");
       }
     }
