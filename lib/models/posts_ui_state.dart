@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:posts_app/utilities/posts_utility.dart';
 
+import '../utilities/filter_utils.dart';
 import 'post.dart';
 
 class PostsUiState extends ChangeNotifier {
@@ -14,10 +15,9 @@ class PostsUiState extends ChangeNotifier {
   String get filter => _filter;
 
   List<Post> allPosts = [];
-
-  List<Post> get filteredPosts => _filter.isEmpty ? allPosts : allPosts.where((p) => p.title.toLowerCase().contains(_filter.toLowerCase())).toList();
-
   String? error;
+
+  List<Post> get filteredPosts => filterPosts(allPosts, filter);
 
   void setFilter(String value) {
     _filter = value;

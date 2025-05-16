@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:posts_app/models/feedback_form_ui_state.dart';
 import 'package:posts_app/models/post.dart';
 import 'package:posts_app/models/posts_ui_state.dart';
 import 'package:posts_app/screens/details_screen.dart';
@@ -11,9 +12,12 @@ void main() {
   postsUIState.fetchPosts();
 
   runApp(
-    ChangeNotifierProvider(
-        create: (_) => postsUIState,
-        child: const MyApp(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: postsUIState),
+        ChangeNotifierProvider(create: (_) => FeedbackFormUiState())
+      ],
+      child: const MyApp(),
     )
   );
 }
