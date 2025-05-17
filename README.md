@@ -1,16 +1,28 @@
 # posts_app
 
-A new Flutter project.
+Flutter test application to retrieve posts from the given API.
 
-## Getting Started
+## Links to the contained packages
+- [models](https://github.com/AriIamsh/flutter-posts-app/tree/main/lib/models)
+- [providers](https://github.com/AriIamsh/flutter-posts-app/tree/main/lib/providers)
+- [screens](https://github.com/AriIamsh/flutter-posts-app/tree/main/lib/screens)
+- [utilities](https://github.com/AriIamsh/flutter-posts-app/tree/main/lib/utilities)
 
-This project is a starting point for a Flutter application.
+- [test](https://github.com/AriIamsh/flutter-posts-app/tree/main/test)
 
-A few resources to get you started if this is your first Flutter project:
+## How to install Flutter SDK
+- [Official guide on how to install Flutter SDK with Dart](https://docs.flutter.dev/get-started/install)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## How to run in Android Studio
+1. Install Flutter SDK.
+2. Open Android studio and install Flutter plugin.
+3. Clone git repository to your PC.
+4. Open cloned project in Android Studio.
+5. Run Android emulator from the Device Manager. If you don't have any devices created yet, add new emulator by pressing "+" button.
+6. Run the project.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## How to run on Android device
+1. Go to (Android Release)[] in github
+2. Download app-debug.apk file on the Android device.
+3. Install the apk.
+4. Launch the app.
