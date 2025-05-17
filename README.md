@@ -22,7 +22,7 @@ Flutter test application to retrieve posts from the given API.
 6. Run the project.
 
 ## How to run on Android device
-1. Go to (Android Release)[] in github
-2. Download app-debug.apk file on the Android device.
+1. Go to [Release](https://github.com/AriIamsh/flutter-posts-app/releases/tag/0.0.1) in github
+2. Download android-debug.apk file on the Android device.
 3. Install the apk.
 4. Launch the app.
