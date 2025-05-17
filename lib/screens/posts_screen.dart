@@ -20,7 +20,12 @@ class _PostsScreenState extends State<PostsScreen> {
     final postsState = Provider.of<PostsUiState>(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text('Posts'), centerTitle: true,),
+      appBar: AppBar(
+        title: Text('Posts'),
+        centerTitle: true,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        scrolledUnderElevation: 0,
+      ),
       body:
           Padding(
             padding: EdgeInsets.all(20),
