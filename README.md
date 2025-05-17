@@ -1,4 +1,4 @@
-# posts_app
+# Posts App
 
 Flutter test application to retrieve posts from the given API.
 
